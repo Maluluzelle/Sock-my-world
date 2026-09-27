@@ -7,14 +7,37 @@
 - Soyons fous, permettre au mari de faire les achats de vetements
 - Gerer les rotations de stock mieux que le Lidl de la rue de Rosny
 
+# Ca va tout faire a ma place ?
+
+Non. Je sais que c'est aussi tres sympa de choisir les vetements de son enfant et de prendre du plaisir a en faire une poupee. L'application ne gere pas les vetements pour les grandes occasions qui devraient faire l'objet d'une recherche sur plein de sites, plein de boutiques. Il sera possible de les ajouter dans le vestiaire mais ces tenues ne sont pas integrees dans un vestiaire ideal tout comme les accessoires.
+
 # Les donnees de base ?
 
 - Rentrer un vestiaire ideal par saison :
+    - Maillot de bain
     - Manteau de pluie x 1 (Automne / Printemps)
     - Manteau chaud x 1 (Hiver)
-    - Bottes de pluie x 1 (Automne / Printemps)
+    - Chaussure / Bottes de pluie x 1 (Automne / Printemps)
     - Baskets x 2 
-    
+    - Chaussures de neige x 1 (Hiver)
+    - Chaussures legeres x 1 (Ete)
+    - Pull x 3 (Automne / Hiver)
+    - Gilet x 2 (Automne / Printemps)
+    - Sweatshirt x 2 (Automne / Printemps)
+    - Sous-Vetements thermiques x 3 - Haut (Hiver)
+    - Sous-Vetements thermiques x 3 - Bas (Hiver)
+    - T-shirt manches courts x 5 (Printemps / Ete)
+    - T-shirt manches longues x 5 (Automme / Hiver)
+    - Chemises manches longues x 4 (Printemps / Ete)
+    - Pantalon epais x 4 (Printemps / Automne / Hiver)
+    - Pantalon leger x 4 (Printemps / Ete)
+    - Collants x 5 (Printemps / Automne / Hiver)
+    - Chaussettes legeres, les fameuses x 10 (Printemps / Ete)
+    - Chaussettes epaisses, las famosas x 10 (Automne / Hiver)
+    - Culottes / Slip x 10 (Printemps / Ete / Automne / Hiver)
+    - Maillot de bain x 2 (Ete)
+    - Poncho de bain x 1 (Ete)
+   
 - Rentrer les vetements qui existent :
     - Type 
     - Taille
@@ -53,5 +76,36 @@
 
 # Et dans un monde ideal ?
 
-- L'application est integree avec Vinted pour permettre de creer les annonces automatiquement
+- L'application est integree avec Vinted / Le Bon Coin pour permettre de creer les annonces automatiquement
+
+- Au bout d'une certaine duree, les annonces se transforment en don. On fait une bonne action et de la place.
+
+# En resume, un vetement a plusieurs statuts
+
+ - In ze closet
+ - Bientot utile
+ - A remplacer
+ - A acheter
+ - A vendre
+ - A donner
+ - A jeter
+ - Sorti - vendu
+ - Sorti - donne
+ - Sorti - jete
+
+ ## Les Ecrans 
+
+                  Sock my World
+                       │
+       ┌───────────────┼───────────────┐
+       │               │               │
+    🏠 Accueil      👕 Dressing     🛍 Besoins
+                       │               │
+                       │          Vestiaire idéal
+                       │
+                 Fiche vêtement
+
+       ┌───────────────┴───────────────┐
+       │                               │
+    ♻️ Rotation                     👧 Profil
 

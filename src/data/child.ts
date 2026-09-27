@@ -1,12 +1,13 @@
-const child = {
+import type { Child } from "../types/Child.ts"
+
+const child: Child = {
   id: 1,
   firstName: "Louise",
   birthDate: "2024-05-12",
-  height: 94,
-  weight: 14,
-  shoeSize: 25,
-  clothingSize: "3 ans",
-  gender: "fille"
+  gender: "girl",
+  heightCm: 94,
+  weightKg: 14,
+  shoeSizeEu: 25
 }
 
 export default child

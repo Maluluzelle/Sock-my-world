@@ -22,3 +22,10 @@ export type WardrobeTarget = {
     type: GarmentType<C>
   }
 }[GarmentCategory]
+
+export type WardrobeTargetResult = {
+  target: WardrobeTarget
+  requiredQuantity: number
+  matchedGarmentIds: number[]
+  missingQuantity: number
+}

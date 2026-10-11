@@ -19,7 +19,8 @@ const pantalon: Garment = {
   color: "Bleu marine",
   seasons: [Season.AUTUMN, Season.WINTER],
   features: [GarmentFeature.WARM],
-  status: GarmentStatus.IN_CLOSET
+  status: GarmentStatus.IN_CLOSET,
+  householdId:"Leveugle"
 }
 
 export default pantalon
@@ -33,5 +34,6 @@ const baskets: Garment = {
   color: "Bleu",
   seasons: [Season.SPRING],
   features: [],
-  status: GarmentStatus.IN_CLOSET
+  status: GarmentStatus.IN_CLOSET,
+  householdId:"Leveugle"
 }

@@ -5,6 +5,7 @@ export type Child = {
   firstName: string
   birthDate: string
   gender?: Gender
+  householdId: string
 
   heightCm: number
   weightKg: number

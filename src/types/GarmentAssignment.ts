@@ -1,7 +1,7 @@
 export type GarmentAssignment = {
   id: string
-  garmentId: string
-  childId: string
+  garmentId: number
+  childId: number
   startDate: string
   endDate?: string
 }

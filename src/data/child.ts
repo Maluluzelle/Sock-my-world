@@ -7,7 +7,8 @@ const child: Child = {
   gender: "girl",
   heightCm: 94,
   weightKg: 14,
-  shoeSizeEu: 25
+  shoeSizeEu: 25,
+  householdId: "Leveugle"
 }
 
 export default child

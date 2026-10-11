@@ -1,0 +1,58 @@
+.child-preview-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 12px 14px;
+  border: none;
+  border-radius: 14px;
+
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.child-preview-card:hover {
+  transform: translateY(-2px);
+}
+
+.child-preview-rabbit {
+  background: #f3e9e5;
+}
+
+.child-preview-bear {
+  background: #eaf0ec;
+}
+
+.child-preview-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+
+  color: var(--color-navy);
+  font-size: 0.8rem;
+}
+
+.child-preview-info strong {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.child-preview-info span:last-child {
+  color: #587b89;
+}
+
+.child-preview-card > svg {
+  color: var(--color-navy);
+  flex-shrink: 0;
+}
+
+.child-preview-card:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+}

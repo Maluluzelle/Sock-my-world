@@ -119,6 +119,8 @@ type GarmentBase = {
 
   photo?: string
   location?: string
+
+  householdId: string
 }
 
 

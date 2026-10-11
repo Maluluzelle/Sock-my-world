@@ -1,0 +1,302 @@
+.child-card {
+  min-width: 0;
+  padding: 24px;
+  background: white;
+  border: 1px solid #dce5e1;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(30, 60, 50, 0.05);
+  text-align: left;
+}
+
+.child-card h3 {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  color: #275d50;
+}
+
+.child-card h4 {
+  margin: 28px 0 12px;
+  color: #275d50;
+}
+
+.child-card p {
+  margin: 6px 0;
+}
+
+.child-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.child-card li {
+  padding: 10px 0;
+  border-bottom: 1px solid #edf1ef;
+  line-height: 1.5;
+}
+
+.child-card li:last-child {
+  border-bottom: none;
+}
+
+.child-card-details {
+  margin-top: 24px;
+  border-top: 1px solid #e8eeeb;
+  padding-top: 16px;
+}
+
+.child-card-details summary {
+  cursor: pointer;
+  color: #275d50;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 0;
+}
+
+.child-card-details summary:hover {
+  color: #153e35;
+}
+
+.child-card-details ul {
+  margin-top: 16px;
+}
+
+.wardrobe-categories {
+  margin-top: 24px;
+  border-top: 1px solid #e7eeea;
+}
+
+.wardrobe-category {
+  border-bottom: 1px solid #e7eeea;
+}
+
+.wardrobe-category summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 20px;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 0;
+  cursor: pointer;
+  font-weight: 600;
+  color: #275d50;
+  list-style: none;
+}
+
+.category-name {
+  min-width: 0;
+}
+
+.category-count {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.wardrobe-category summary::after {
+  content: "⌄";
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
+}
+
+.wardrobe-category[open] summary::after {
+  content: "⌃";
+}
+.wardrobe-category summary::-webkit-details-marker {
+  display: none;
+}
+
+.wardrobe-category summary::after {
+  content: "⌄";
+  font-size: 20px;
+  margin-left: 8px;
+}
+
+.wardrobe-category[open] summary::after {
+  content: "⌃";
+}
+
+.wardrobe-category ul {
+  margin: 0 0 12px;
+  padding: 12px;
+  list-style: none;
+  background: #f6f8f7;
+  border-radius: 10px;
+}
+
+.wardrobe-category li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5ebe8;
+}
+
+.wardrobe-category li:last-child {
+  border-bottom: none;
+}
+
+.category-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.category-actions button {
+  background: transparent;
+  border: none;
+  padding: 6px 0;
+  color: #275d50;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.category-actions button:hover {
+  text-decoration: underline;
+}
+
+.child-measurements {
+  margin: 12px 0 20px;
+}
+
+.child-measurements label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.child-measurements input {
+  width: 120px;
+  padding: 9px 12px;
+  border: 1px solid #d5e1db;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.child-measurements button {
+  border: 1px solid #d5e1db;
+  border-radius: 8px;
+  background: white;
+  color: #275d50;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.category-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.category-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  font-size: 20px;
+}
+
+.category-name svg {
+  flex-shrink: 0;
+  color: #70877d;
+}
+
+.child-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 8px;
+  margin-bottom: 14px;
+
+  background-color: #eaf0ec;
+  border-radius: 14px;
+}
+
+.child-heading h3 {
+  margin: 0;
+  color: var(--color-navy);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+/* Deux encadrés harmonisés */
+.child-card .child-measurements-row,
+.child-card .child-wardrobe-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  padding: 12px 14px;
+  margin: 8px 0;
+
+  border: 1px solid #dce6e0;
+  border-radius: 12px;
+  background: white;
+}
+
+/* Même typographie pour les deux informations */
+.child-card .child-measurements-row span,
+.child-card .child-wardrobe-summary strong {
+  color: var(--color-navy);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Même typographie pour les deux boutons */
+.child-card .edit-measurements-button,
+.child-card .recheck-button {
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Action secondaire : discrète */
+.child-card .edit-measurements-button {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--color-teal);
+  padding: 4px 0;
+}
+
+.child-card .edit-measurements-button:hover {
+  text-decoration: underline;
+}
+
+/* Action principale : bouton plein */
+.child-card .recheck-button {
+  border: none;
+  border-radius: 9px;
+  background: var(--color-teal);
+  color: white;
+  padding: 8px 14px;
+}
+
+.child-card .recheck-button:hover {
+  background: #397c87;
+}
+
+.child-card .edit-measurements-button:focus-visible,
+.child-card .recheck-button:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 3px;
+}

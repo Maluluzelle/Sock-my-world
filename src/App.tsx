@@ -9,6 +9,7 @@ import { wardrobeSuggestions } from "./data/wardrobeSuggestions"
 import { calculateAssignedChildWardrobeNeeds } from "./domain/wardrobe"
 import { ChildPreviewCard } from "./components/ChildPreviewCard"
 import logo from "./assets/logo.png"
+import { categoryLabels } from "./data/categoryLabels"
 
 const initialChildren: Child[] = [
   {
@@ -154,22 +155,103 @@ function App() {
           />
         ))
             ) : selectedCategory !== null ? (
-              <div className="child-detail-layout">
-                <button
-                  type="button"
-                  className="back-button"
-                  onClick={() => setSelectedCategory(null)}
-                >
-                  ← retour
-                </button>
+            <div className="child-detail-layout">
+              {children
+                .filter((child) => child.id === selectedChildId)
+                .map((child) => {
+                  const needs = calculateAssignedChildWardrobeNeeds(
+                    child,
+                    garments,
+                    assignments,
+                    wardrobeSuggestions.filter(
+                      (target) => target.season === selectedSeason
+                    )
+                  )
+                  const categoryTotalMissing = needs
+                    .filter(
+                      (result) =>
+                        result.target.category === selectedCategory &&
+                        result.missingQuantity > 0
+                    )
+                    .reduce(
+                      (total, result) => total + result.missingQuantity,
+                      0
+                    )
+                  const categoryTotalNeeded = needs
+                    .filter(
+                      (result) => result.target.category === selectedCategory
+                    )
+                    .reduce(
+                      (total, result) => total + result.requiredQuantity,
+                      0
+                    )
+                  return (
+                    <div key={child.id}>
+                      <button
+                        type="button"
+                        className="back-button"
+                        onClick={() => setSelectedCategory(null)}
+                      >
+                        ← retour
+                      </button>
+                      <h2 className="category-page-title">
+                        {categoryLabels[selectedCategory] ?? selectedCategory}
+                      </h2>
+                      <p className="category-summary">
+                        {categoryTotalMissing} vêtement{categoryTotalMissing > 1 ? "s" : ""} à prévoir                      </p>
+                      <div className="category-progress-row">
+                        <div className="category-progress">
+                          <div
+                            className="category-progress-fill"
+                            style={{
+                              width: `${
+                                categoryTotalNeeded > 0
+                                  ? Math.max(
+                                      0,
+                                      Math.min(
+                                        100,
+                                        ((categoryTotalNeeded - categoryTotalMissing) /
+                                          categoryTotalNeeded) * 100
+                                      )
+                                    )
+                                  : 0
+                              }%`,
+                            }}
+                          />
+                        </div>
 
-                <h2>
-                  {selectedCategory}
-                </h2>
-              </div>
-            ) : (
+                        <span className="category-progress-count">
+                          {Math.max(0, categoryTotalNeeded - categoryTotalMissing)}/{categoryTotalNeeded}
+                        </span>
+                      </div>
+                      <ul className="category-garments">
+                        {needs
+                          .filter(
+                            (result) => result.target.category === selectedCategory
+                          )
+                          .map((result, index) => (
+                            <li key={index} className="category-garment-card">
+                              <span className="category-garment-name">
+                                {result.target.garmentType}
+                              </span>
+
+                              <span
+                                className={`category-garment-count ${
+                                  result.missingQuantity === 0 ? "complete" : ""
+                                }`}
+                              >
+                                {Math.max(0, result.requiredQuantity - result.missingQuantity)}/{result.requiredQuantity}
+                              </span>
+                          </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )
+                                })}
+            </div>
+          ) : (
               <>
-              <div className="child-detail-layout">
+                <div className="child-detail-layout">
           <button
             type="button"
             className="back-button"

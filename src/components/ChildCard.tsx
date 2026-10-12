@@ -52,17 +52,7 @@ export function ChildCard({
     const missingNeeds = needs.filter(
         (result) => result.missingQuantity > 0
     )
-
-    const categoryDetailsRef = useRef<HTMLDivElement>(null)
-
-    function setAllCategoriesOpen(open: boolean) {
-    const details = categoryDetailsRef.current?.querySelectorAll("details")
-
-        details?.forEach((detail) => {
-            detail.open = open
-        })
-    }
-
+    
     const [isEditing, setIsEditing] = useState(false)
 
     const [heightCm, setHeightCm] = useState(child.heightCm)
@@ -125,24 +115,9 @@ export function ChildCard({
         </div>
         {missingNeeds.length > 0 && (
         <>
-            <div className="category-actions">
-                <button
-                    type="button"
-                    onClick={() => setAllCategoriesOpen(true)}
-                >
-                    Tout déplier
-                </button>
-
-                <button
-                    type="button"
-                    onClick={() => setAllCategoriesOpen(false)}
-                >
-                    Tout replier
-                </button>
-                </div>
         </>
         )}
-        <div className="wardrobe-categories" ref={categoryDetailsRef}>
+        <div className="wardrobe-categories">
             {Array.from(
             new Set(missingNeeds.map((result) => result.target.category))
             ).map((category) => {

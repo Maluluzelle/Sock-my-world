@@ -8,7 +8,7 @@ import { Season } from "./types/Garment"
 import { wardrobeSuggestions } from "./data/wardrobeSuggestions"
 import { calculateAssignedChildWardrobeNeeds } from "./domain/wardrobe"
 import { ChildPreviewCard } from "./components/ChildPreviewCard"
-
+import logo from "./assets/logo.png"
 
 const initialChildren: Child[] = [
   {
@@ -69,28 +69,27 @@ function App() {
   }
   return (
     <main>
-      <h1 className="app-title">Sock my World</h1>
-      <p>Le vestiaire des enfants, une responsabilité partagée.</p>
-      <div>
-        <label htmlFor="season">Saison : </label>
-
-        <select
-          className="season-select"
-            id="season"
-            value={selectedSeason}
-            onChange={(event) =>
-              setSelectedSeason(event.target.value as Season)
-            }
-        >
-          {Object.values(Season).map((season) => (
-            <option key={season} value={season}>
-              {seasonLabels[season]}
-            </option>
-          ))}
-        </select>
+      <button
+        type="button"
+        className="settings-button"
+        aria-label="Paramètres"
+        title="Paramètres"
+        onClick={() => alert("La page Paramètres arrive bientôt !")}
+      >
+        ⚙
+      </button>
+      <div className="app-brand">
+        <img
+          src={logo}
+          alt=""
+          className="app-logo"
+        />
+        <h1 className="app-title"> PiouPiou<span>Sape</span></h1>
       </div>
-      <h2>Mes enfants</h2>
-
+      <p className="app-subtitle">
+        Le vestiaire des enfants, une responsabilité partagée.
+      </p>
+      <h2 className="children-title">Mes enfants</h2>
       <div className="children-grid">
         {selectedChildId === null ? (
         children.map((child) => (
@@ -102,14 +101,14 @@ function App() {
         ))
       ) : (
         <>
+        <div className="child-detail-layout">
           <button
             type="button"
             className="back-button"
             onClick={() => setSelectedChildId(null)}
           >
-            ← Retour à Mes enfants
+            ← retour
           </button>
-
           {children
             .filter((child) => child.id === selectedChildId)
             .map((child) => {
@@ -121,7 +120,6 @@ function App() {
                   (target) => target.season === selectedSeason
                 )
               )
-
               return (
                 <ChildCard
                   key={child.id}
@@ -137,6 +135,7 @@ function App() {
                 />
               )
             })}
+          </div>
         </>
       )}
       </div>

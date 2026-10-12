@@ -13,9 +13,9 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Arial, sans-serif;
-  color: #243b35;
-  background: #f4f7f5;
+  font-family: "Nunito Sans", sans-serif;
+  color: var(--color-navy);
+  background: var(--color-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -31,6 +31,24 @@ body {
 body {
   margin: 0;
   min-width: 320px;
+  min-height: 100vh;
+
+  background-color: var(--color-background);
+
+  background-image:
+    radial-gradient(
+      ellipse 320px 240px at 0% 100%,
+      #f3cfc5 99%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 380px 260px at 100% 100%,
+      #cde2d3 99%,
+      transparent 100%
+    );
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 #root {
@@ -82,7 +100,7 @@ h2 {
 }
 
 .app-title {
-  margin: 0 0 6px;
+  margin: 0 0 0px;
   color: var(--color-navy);
   font-size: clamp(1.7rem, 3vw, 2.2rem);
   font-weight: 800;
@@ -107,4 +125,150 @@ h2 {
 
 .back-button:hover {
   text-decoration: underline;
+}
+
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.app-logo {
+  width: 120px;
+  height: 80px;
+  object-fit: contain;
+  flex-shrink: 0;
+  mix-blend-mode: normal;
+}
+
+.app-brand .app-title {
+  margin: 0;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: clamp(38px, 4vw, 28px);
+  font-weight: 890;
+  line-height: 1;
+  letter-spacing: normal;
+  color: var(--color-navy);
+}
+
+.app-title span {
+  color: var(--color-coral);
+}
+
+.app-brand .app-title {
+  margin: 0;
+}
+
+/* Accueil : cartes côte à côte sur ordinateur */
+.children-preview-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+/* Accueil : cartes empilées sur mobile */
+@media (max-width: 650px) {
+  .children-preview-list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+
+.app-subtitle {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 0.1;
+  letter-spacing: normal;
+  color: var(--color-navy);
+}
+
+.children-title {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-navy);
+  letter-spacing: -0.02em;
+  margin: 10px 0 10px;
+}
+
+.settings-button {
+  position: absolute;
+  top: 36px;
+  right: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-background);
+  color: var(--color-navy);
+
+  font-size: 24px;
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.settings-button:hover {
+  transform: rotate(30deg);
+}
+
+@media (max-width: 650px) {
+  .settings-button {
+    top: 20px;
+    right: 16px;
+  }
+}
+
+.child-detail-layout {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (max-width: 650px) {
+  .child-detail-layout {
+    max-width: 100%;
+  }
+}
+
+.child-detail-layout .back-button {
+  align-self: flex-start;
+  /* margin-top: 0;
+  margin-bottom: 0px; */
+  margin: 0px 0 0px;
+  text-align: left;
+}
+
+/* Affichage de la fiche enfant */
+.child-detail-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.child-detail-layout .child-card {
+  width: 100%;
+}
+
+/* Une seule colonne quand on affiche la fiche d'un enfant */
+.children-grid:has(.child-detail-layout) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Espacement réduit uniquement dans la fiche enfant */
+main:has(.child-detail-layout) .children-title {
+  margin-bottom: 0px;
 }

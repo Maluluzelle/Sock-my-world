@@ -16,6 +16,7 @@ import { RaincoatIcon } from "./RaincoatIcon"
 import { UnderwearIcon } from "./UnderwearIcon" 
 import { PantsIcon } from "./PantsIcon"
 import { ChildAvatar } from "./ChildAvatar"
+import { Pencil } from "lucide-react"
 
 type ChildCardProps = {
   child: Child
@@ -64,50 +65,26 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
     return (
         <article className="child-card">
         <div className="child-heading">
-            <ChildAvatar animal={animal} size={56} />
+        <ChildAvatar animal={animal} size={56} />
+
+        <div className="child-heading-info">
             <h3>{child.firstName}</h3>
+            <p className="child-age">
+            {new Date().getFullYear() -
+                new Date(child.birthDate).getFullYear()} ans
+            </p>
+            <p className="child-heading-measurements">
+               {heightCm} cm · Pointure {shoeSizeEu}
+            </p>
         </div>
-        <div className="child-measurements child-measurements-row">
-        {isEditing ? (
-            <>
-            <label>
-                Taille (cm)
-                <input
-                type="number"
-                min="50"
-                max="220"
-                value={heightCm}
-                onChange={(event) =>
-                    setHeightCm(Number(event.target.value))
-                }
-                />
-            </label>
-
-            <label>
-                Pointure (EU)
-                <input
-                type="number"
-                min="18"
-                max="50"
-                value={shoeSizeEu}
-                onChange={(event) =>
-                    setShoeSizeEu(Number(event.target.value))
-                }
-                />
-            </label>
-            </>
-            ) : (
-                <span>
-                    Taille : {heightCm} cm · Pointure : {shoeSizeEu}
-                </span>
-            )}
-
             <button
                 type="button"
-                className="edit-measurements-button"
-                onClick={() => setIsEditing(!isEditing)}
-            >
-                {isEditing ? "Terminer" : "Modifier les mesures"}
+                className="child-settings-button"
+                aria-label={`Modifier les informations de ${child.firstName}`}
+                title="Paramètres de l'enfant"
+                onClick={() => setIsEditing(true)}
+                >
+                <Pencil size={14} strokeWidth={2} />
             </button>
         </div>
         <div className="child-wardrobe-summary">
@@ -209,6 +186,51 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
             )
             })}
         </div>
+        {isEditing && (
+        <div className="child-edit-overlay">
+            <div className="child-edit-modal">
+            <div className="child-edit-header">
+                <h3>Modifier les informations de {child.firstName}</h3>
+                <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                aria-label="Fermer"
+                >
+                ✕
+                </button>
+            </div>
+            <div className="child-edit-fields">
+            <label>
+                Taille (cm)
+                <input
+                type="number"
+                value={heightCm}
+                onChange={(e) => setHeightCm(Number(e.target.value))}
+                />
+            </label>
+
+            <label>
+                Pointure (EU)
+                <input
+                type="number"
+                value={shoeSizeEu}
+                onChange={(e) => setShoeSizeEu(Number(e.target.value))}
+                />
+            </label>
+            </div>
+            <button
+                type="button"
+                className="child-edit-save"
+                onClick={() => {
+                    onRecheck(heightCm, shoeSizeEu)
+                    setIsEditing(false)
+                }}
+                >
+                Enregistrer
+            </button>
+            </div>
+        </div>
+        )}
         </article>
     )
 }

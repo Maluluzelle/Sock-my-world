@@ -17,7 +17,7 @@ const avatarImages = {
 
 export function ChildAvatar({
   animal,
-  size = 64,
+  size = 100,
 }: ChildAvatarProps) {
   return (
     <img

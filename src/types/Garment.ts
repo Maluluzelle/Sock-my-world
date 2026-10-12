@@ -21,6 +21,7 @@ export const GARMENT_TYPES = {
   dress: [
     "dress",
     "pinafore",
+    "overall",
     "other"
   ],
   coat: [
@@ -41,11 +42,11 @@ export const GARMENT_TYPES = {
     "socks",
     "tights",
     "undershirt",
+    "onesie",
     "other"
   ],
   swimwear: [
     "swimsuit",
-    "swimShorts",
     "other"
   ],
   sleepwear: [

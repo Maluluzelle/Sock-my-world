@@ -4,12 +4,27 @@ import { ChildCard } from "./components/ChildCard"
 import type { Child } from "./types/Child"
 import type { Garment } from "./types/Garment"
 import type { GarmentAssignment } from "./types/GarmentAssignment"
-import { Season } from "./types/Garment"
+import { Season, GarmentFeature } from "./types/Garment"
 import { wardrobeSuggestions } from "./data/wardrobeSuggestions"
 import { calculateAssignedChildWardrobeNeeds } from "./domain/wardrobe"
 import { ChildPreviewCard } from "./components/ChildPreviewCard"
 import logo from "./assets/logo.png"
 import { categoryLabels } from "./data/categoryLabels"
+import { garmentTypeLabels, garmentFeatureLabels } from "./data/garmentLabels"
+import { Shirt, Footprints, Waves, Moon, Package } from "lucide-react"
+import { PantsIcon } from "./components/PantsIcon"
+import { RaincoatIcon } from "./components/RaincoatIcon"
+import { UnderwearIcon } from "./components/UnderwearIcon"
+import { AddGarmentModal } from "./components/AddGarmentModal"
+
+const garmentImages = import.meta.glob(
+  "./assets/garments/*.png",
+  {
+    eager: true,
+    query: "?url",
+    import: "default",
+  }
+) as Record<string, string>
 
 const initialChildren: Child[] = [
   {
@@ -40,6 +55,17 @@ const seasonLabels: Record<Season, string> = {
         [Season.SUMMER]: "Été",
         [Season.AUTUMN]: "Automne",
         [Season.WINTER]: "Hiver",
+}
+
+const categoryIcons = {
+  top: Shirt,
+  bottom: PantsIcon,
+  coat: RaincoatIcon,
+  shoes: Footprints,
+  underwear: UnderwearIcon,
+  swimwear: Waves,
+  sleepwear: Moon,
+  dress: Shirt,
 }
 
 function App() {
@@ -89,7 +115,8 @@ function App() {
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isAddingChild, setIsAddingChild] = useState(false)
-  
+  const [isAddingGarment, setIsAddingGarment] = useState(false)
+
   function updateChildMeasurements(
     childId: number,
     heightCm: number,
@@ -194,11 +221,42 @@ function App() {
                       >
                         ← retour
                       </button>
-                      <h2 className="category-page-title">
-                        {categoryLabels[selectedCategory] ?? selectedCategory}
-                      </h2>
-                      <p className="category-summary">
-                        {categoryTotalMissing} vêtement{categoryTotalMissing > 1 ? "s" : ""} à prévoir                      </p>
+                      <div className="category-page-header">
+                        <div className="category-page-heading">
+                          {(() => {
+                            const CategoryIcon =
+                              categoryIcons[selectedCategory as keyof typeof categoryIcons] ?? Package
+
+                            return (
+                              <CategoryIcon
+                                size={44}
+                                strokeWidth={1.7}
+                                aria-hidden="true"
+                                className="category-page-icon"
+                              />
+                            )
+                          })()}
+
+                          <div className="category-page-heading-text">
+                            <h2 className="category-page-title">
+                              {categoryLabels[selectedCategory] ?? selectedCategory}
+                            </h2>
+
+                            <p className="category-summary">
+                              {categoryTotalMissing} vêtement
+                              {categoryTotalMissing > 1 ? "s" : ""} à prévoir
+                            </p>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          className="category-add-button"
+                          onClick={() => setIsAddingGarment(true)}
+                        >
+                          + Ajouter un vêtement
+                        </button>
+                      </div>
                       <div className="category-progress-row">
                         <div className="category-progress">
                           <div
@@ -231,9 +289,78 @@ function App() {
                           )
                           .map((result, index) => (
                             <li key={index} className="category-garment-card">
-                              <span className="category-garment-name">
-                                {result.target.garmentType}
-                              </span>
+                              {(() => {
+                                const imageByType: Record<string, string> = {
+                                  pants: "pants.png",
+                                  leggings: "leggings.png",
+                                  shorts: "short.png",
+                                  skirt: "skirt.png",
+                                  tshirt: result.target.features.includes(GarmentFeature.LONGSLEEVED)
+                                    ? "t_shirt_longsleeved.png"
+                                    : "t_shirt_shortsleeved.png",
+                                  shirt: "shirt.png",
+                                  sweater: "sweater.png",
+                                  sweatshirt: "sweatshirt.png",
+                                  cardigan: "cardigan.png",
+                                  dress: "dress.png",
+                                  overall: "overall.png",
+                                  raincoat: "raincoat.png",
+                                  winterCoat: "wintercoat.png",
+                                  jacket: "jacket.png",
+                                  sneakers: "sneakers.png",
+                                  boots: "boots.png",
+                                  sandals: "sandals.png",
+                                  underpants: "underpant.png",
+                                  socks: "socks.png",
+                                  tights: "tights.png",
+                                  undershirt: "undershirt.png",
+                                  onesie: "body.png",
+                                  swimsuit: "swimwear.png",
+                                  pyjamas: "pyjama.png",
+                                }
+
+                                const otherImages: Record<string, string> = {
+                                  top: "top_other.png",
+                                  bottom: "bottom_other.png",
+                                  coat: "coat_other.png",
+                                  shoes: "shoes_other.png",
+                                  underwear: "underwear_other.png",
+                                  swimwear: "swim_other.png",
+                                  sleepwear: "nightwear_other.png",
+                                }
+
+                                const filename =
+                                  result.target.type === "other"
+                                    ? otherImages[result.target.category]
+                                    : imageByType[result.target.type] ??
+                                      otherImages[result.target.category]
+                                const image = filename
+                                  ? garmentImages[`./assets/garments/${filename}`]
+                                  : undefined
+
+                                return image ? (
+                                  <img
+                                    src={image}
+                                    alt=""
+                                    className="category-garment-image"
+                                  />
+                                ) : null
+                              })()}
+                              <div className="category-garment-info">
+                                <span className="category-garment-name">
+                                  {garmentTypeLabels[result.target.type] ?? result.target.type}
+                                </span>
+
+                                {result.target.features.length > 0 && (
+                                  <div className="category-garment-features">
+                                    {result.target.features.map((feature) => (
+                                      <span key={feature} className="category-feature-badge">
+                                        {garmentFeatureLabels[feature] ?? feature}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
 
                               <span
                                 className={`category-garment-count ${
@@ -312,6 +439,11 @@ function App() {
             </button>
           </div>
         </div>
+      )}
+      {isAddingGarment && (
+        <AddGarmentModal
+          onClose={() => setIsAddingGarment(false)}
+        />
       )}
     </main>
   )

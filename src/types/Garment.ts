@@ -54,7 +54,6 @@ export const GARMENT_TYPES = {
   ]  
 } as const
 
-
 // 2. Types déduits automatiquement
 
 export type GarmentCategory =

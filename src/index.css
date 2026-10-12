@@ -272,3 +272,143 @@ h2 {
 main:has(.child-detail-layout) .children-title {
   margin-bottom: 0px;
 }
+
+.children-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.add-child-button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  background-color: #bed3c3;
+  color: #212e53;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-child-button:hover {
+  background-color: #a8c5b1;
+}
+
+.season-selector {
+  background: #f8f9f7;
+  border-radius: 18px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.season-selector h3 {
+  color: #212e53;
+  font-size: 16px;
+  margin: 0 0 18px;
+}
+
+.season-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.season-labels span {
+  flex: 1;
+  text-align: center;
+  font-size: 12px;
+  color: #212e53;
+}
+
+.season-slider {
+  display: block;
+  width: 100%;
+  accent-color: #4a919e;
+  cursor: pointer;
+}
+
+.category-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.category-navigation-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+}
+
+.category-navigation .category-count {
+  color: #ce6a6b;
+  font-weight: 700;
+}
+
+.category-navigation .category-arrow {
+  color: #212e53;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.category-navigation:hover {
+  background-color: #f8f9f7;
+}
+
+.wardrobe-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.wardrobe-category.category-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid #e5e9e7;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.wardrobe-category.category-navigation:hover {
+  background: #f8f9f7;
+  border-color: #bed3c3;
+}
+
+.category-navigation .category-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #212e53;
+  font-weight: 700;
+}
+
+.category-navigation .category-name svg {
+  color: #7c9f91;
+}
+
+.category-navigation .category-count {
+  color: #ce6a6b;
+  font-weight: 700;
+}
+
+.category-navigation .category-arrow {
+  color: #4a919e;
+  font-size: 20px;
+}

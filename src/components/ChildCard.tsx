@@ -17,11 +17,16 @@ import { UnderwearIcon } from "./UnderwearIcon"
 import { PantsIcon } from "./PantsIcon"
 import { ChildAvatar } from "./ChildAvatar"
 import { Pencil } from "lucide-react"
+import { formatChildAge } from "../utils/formatChildAge"
+import { Season } from "../types/Garment"
 
 type ChildCardProps = {
   child: Child
   needs: WardrobeTargetResult[]
-  onRecheck: (heightCm: number, shoeSizeEu: number) => void
+  selectedSeason: Season
+  onSeasonChange: (season: Season) => void
+  onRecheck: (heightCm: number, shoeSizeEu: number, firstName: string, birthDate:string) => void
+  onCategoryClick: (category: string) => void
 }
 
 const categoryIcons = {
@@ -35,11 +40,14 @@ const categoryIcons = {
   dress: Shirt,
 }
 
-export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
-    const totalMissing = needs.reduce(
-        (total, result) => total + result.missingQuantity,
-        0
-    )
+export function ChildCard({ 
+    child,
+    needs,
+    selectedSeason,
+    onSeasonChange,
+    onRecheck,
+    onCategoryClick,
+ }: ChildCardProps) {
 
     const missingNeeds = needs.filter(
         (result) => result.missingQuantity > 0
@@ -62,6 +70,9 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
 
     const animal = child.id === 1 ? "rabbit" : "bear"
 
+    const [firstName, setFirstName] = useState(child.firstName)
+    const [birthDate, setBirthDate] = useState(child.birthDate)
+
     return (
         <article className="child-card">
         <div className="child-heading">
@@ -70,8 +81,7 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
         <div className="child-heading-info">
             <h3>{child.firstName}</h3>
             <p className="child-age">
-            {new Date().getFullYear() -
-                new Date(child.birthDate).getFullYear()} ans
+             {formatChildAge(child.birthDate)}
             </p>
             <p className="child-heading-measurements">
                {heightCm} cm · Pointure {shoeSizeEu}
@@ -82,39 +92,36 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
                 className="child-settings-button"
                 aria-label={`Modifier les informations de ${child.firstName}`}
                 title="Paramètres de l'enfant"
-                onClick={() => setIsEditing(true)}
+                onClick={() => {
+                    setFirstName(child.firstName)
+                    setBirthDate(child.birthDate)
+                    setHeightCm(child.heightCm)
+                    setShoeSizeEu(child.shoeSizeEu)
+                    setIsEditing(true)
+                }}
                 >
                 <Pencil size={14} strokeWidth={2} />
             </button>
         </div>
-        <div className="child-wardrobe-summary">
-            <strong>
-                {totalMissing === 0
-                ? "Vestiaire complet"
-                : `${totalMissing} vêtements à prévoir`}
-            </strong>
-
+        <div className="season-buttons">
+        {[
+            { value: Season.AUTUMN, label: "🍂 Automne" },
+            { value: Season.WINTER, label: "❄️ Hiver" },
+            { value: Season.SPRING, label: "🌷 Printemps" },
+            { value: Season.SUMMER, label: "☀️ Été" },
+        ].map((season) => (
             <button
-                type="button"
-                className="recheck-button"
-                onClick={() => {
-                if (
-                    !Number.isFinite(heightCm) ||
-                    !Number.isFinite(shoeSizeEu) ||
-                    heightCm < 50 ||
-                    heightCm > 220 ||
-                    shoeSizeEu < 18 ||
-                    shoeSizeEu > 50
-                ) {
-                    return
-                }
-
-                onRecheck(heightCm, shoeSizeEu)
-                setIsEditing(false)
-                }}
+            key={season.value}
+            type="button"
+            className={`season-button ${
+                selectedSeason === season.value ? "active" : ""
+            }`}
+            onClick={() => onSeasonChange(season.value)}
+            aria-pressed={selectedSeason === season.value}
             >
-                Revérifier
+            {season.label}
             </button>
+        ))}
         </div>
         {missingNeeds.length > 0 && (
         <>
@@ -151,39 +158,31 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
             )
 
             return (
-                <details className="wardrobe-category" key={category}>
-                <summary>
+                <button
+                    key={category}
+                    type="button"
+                    className="wardrobe-category category-navigation"
+                    onClick={() => onCategoryClick(category)}
+                >
                     <span className="category-name">
-                        <CategoryIcon
-                            size={20}
-                            strokeWidth={1.7}
-                            aria-hidden="true"
-                        />
-
-                        {categoryLabels[category] ?? category}
+                    <CategoryIcon
+                        size={20}
+                        strokeWidth={1.7}
+                        aria-hidden="true"
+                    />
+                    {categoryLabels[category] ?? category}
                     </span>
+
+                    <span className="category-navigation-right">
                     <span className="category-count">
-                    {categoryMissing} à prévoir
+                        {categoryMissing} à prévoir
                     </span>
-                </summary>
-
-                <ul>
-                    {categoryNeeds.map((result) => (
-                    <li key={result.target.id}>
-                        <span>
-                        {result.target.type}
-                        {result.target.features.length > 0
-                            ? ` (${result.target.features.join(", ")})`
-                            : ""}
-                        </span>
-                        <strong>
-                        {result.missingQuantity} / {result.requiredQuantity}
-                        </strong>
-                    </li>
-                    ))}
-                </ul>
-                </details>
-            )
+                    <span className="category-arrow" aria-hidden="true">
+                        →
+                    </span>
+                    </span>
+                </button>
+                )
             })}
         </div>
         {isEditing && (
@@ -192,14 +191,36 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
             <div className="child-edit-header">
                 <h3>Modifier les informations de {child.firstName}</h3>
                 <button
-                type="button"
-                onClick={() => setIsEditing(false)}
-                aria-label="Fermer"
-                >
-                ✕
+                    type="button"
+                    onClick={() => {
+                        setHeightCm(child.heightCm)
+                        setShoeSizeEu(child.shoeSizeEu)
+                        setFirstName(child.firstName)
+                        setBirthDate(child.birthDate)
+                        setIsEditing(false)
+                    }}
+                    aria-label="Fermer sans enregistrer"
+                    >
+                    ✕
                 </button>
             </div>
             <div className="child-edit-fields">
+                <label>
+                    Prénom
+                    <input
+                        type="text"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                </label>
+                <label>
+                    Date de naissance
+                    <input
+                        type="date"
+                        value={birthDate}
+                        onChange={(e) => setBirthDate(e.target.value)}
+                    />
+                </label>
             <label>
                 Taille (cm)
                 <input
@@ -218,16 +239,36 @@ export function ChildCard({ child, needs, onRecheck }: ChildCardProps) {
                 />
             </label>
             </div>
+            <div className="child-edit-actions">
+            <button
+                type="button"
+                className="child-edit-cancel"
+                onClick={() => {
+                    setHeightCm(child.heightCm)
+                    setShoeSizeEu(child.shoeSizeEu)
+                    setFirstName(child.firstName)
+                    setBirthDate(child.birthDate)
+                    setIsEditing(false)
+                }}
+                >
+                Annuler
+            </button>
             <button
                 type="button"
                 className="child-edit-save"
                 onClick={() => {
-                    onRecheck(heightCm, shoeSizeEu)
-                    setIsEditing(false)
+                if (!birthDate || !firstName.trim()) {
+                    alert("Le prénom et la date de naissance sont obligatoires.")
+                    return
+                }
+
+                onRecheck(heightCm, shoeSizeEu, firstName.trim(), birthDate)
+                setIsEditing(false)
                 }}
                 >
                 Enregistrer
             </button>
+            </div>
             </div>
         </div>
         )}

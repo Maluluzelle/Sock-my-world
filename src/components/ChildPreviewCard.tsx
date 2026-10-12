@@ -2,6 +2,7 @@ import type { Child } from "../types/Child"
 import { ChevronRight } from "lucide-react"
 import { ChildAvatar } from "./ChildAvatar"
 import "./ChildPreviewCard.css"
+import { formatChildAge } from "../utils/formatChildAge"
 
 
 type ChildPreviewCardProps = {
@@ -14,20 +15,7 @@ export function ChildPreviewCard({
   onClick,
 }: ChildPreviewCardProps) {
   const animal = child.id === 1 ? "rabbit" : "bear"
-
-  const age = Math.max(
-    0,
-    new Date().getFullYear() -
-      new Date(child.birthDate).getFullYear() -
-      (new Date() <
-      new Date(
-        new Date(child.birthDate).setFullYear(
-          new Date().getFullYear()
-        )
-      )
-        ? 1
-        : 0)
-  )
+  const age = formatChildAge(child.birthDate)
 
   return (
     <button
@@ -39,7 +27,7 @@ export function ChildPreviewCard({
 
       <div className="child-preview-info">
         <strong>{child.firstName}</strong>
-        <span>{age} ans</span>
+        <span>{age} </span>
         <span>
           {child.heightCm} cm · Pointure {child.shoeSizeEu}
         </span>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { ChildCard } from "./components/ChildCard"
 import type { Child } from "./types/Child"
@@ -15,7 +15,7 @@ const initialChildren: Child[] = [
     id: 1,
     householdId: "household-1",
     firstName: "Alice",
-    birthDate: "2022-05-10",
+    birthDate: "2024-05-10",
     heightCm: 102,
     weightKg: 16,
     shoeSizeEu: 27,
@@ -42,27 +42,70 @@ const seasonLabels: Record<Season, string> = {
 }
 
 function App() {
-  const [selectedSeason, setSelectedSeason] = useState<Season>(
-    Season.AUTUMN
-  )
+  const [selectedSeason, setSelectedSeason] = useState<Season>(() => {
+    const month = new Date().getMonth() + 1
+
+    if (month >= 3 && month <= 5) {
+      return Season.SPRING
+    }
+
+    if (month >= 6 && month <= 8) {
+      return Season.SUMMER
+    }
+
+    if (month >= 9 && month <= 11) {
+      return Season.AUTUMN
+    }
+
+    return Season.WINTER
+  })
 
   const seasonalTargets = wardrobeSuggestions.filter(
     (target) => target.season === selectedSeason
   )
 
-  const [children, setChildren] = useState<Child[]>(initialChildren)
+  const [children, setChildren] = useState<Child[]>(() => {
+  const savedChildren = localStorage.getItem("pioupiousape-children")
+
+    if (savedChildren) {
+      try {
+        return JSON.parse(savedChildren) as Child[]
+      } catch {
+        return initialChildren
+      }
+    }
+
+    return initialChildren
+  })
+
+  useEffect(() => {
+    localStorage.setItem(
+      "pioupiousape-children",
+      JSON.stringify(children)
+    )
+  }, [children])
 
   const [selectedChildId, setSelectedChildId] = useState<number | null>(null)
-
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [isAddingChild, setIsAddingChild] = useState(false)
+  
   function updateChildMeasurements(
     childId: number,
     heightCm: number,
-    shoeSizeEu: number
+    shoeSizeEu: number,
+    firstName: string,
+    birthDate: string
   ) {
     setChildren((currentChildren) =>
       currentChildren.map((child) =>
         child.id === childId
-          ? { ...child, heightCm, shoeSizeEu }
+          ? {
+              ...child,
+              heightCm,
+              shoeSizeEu,
+              firstName,
+              birthDate,
+            }
           : child
       )
     )
@@ -89,7 +132,18 @@ function App() {
       <p className="app-subtitle">
         Le vestiaire des enfants, une responsabilité partagée.
       </p>
-      <h2 className="children-title">Mes enfants</h2>
+      {selectedChildId === null && (
+        <div className="children-heading">
+          <h2 className="children-title">Mes enfants</h2>
+          <button
+            type="button"
+            className="add-child-button"
+            onClick={() => setIsAddingChild(true)}
+          >
+            + Ajouter un enfant
+          </button>
+      </div>
+      )}
       <div className="children-grid">
         {selectedChildId === null ? (
         children.map((child) => (
@@ -99,9 +153,23 @@ function App() {
             onClick={() => setSelectedChildId(child.id)}
           />
         ))
-      ) : (
-        <>
-        <div className="child-detail-layout">
+            ) : selectedCategory !== null ? (
+              <div className="child-detail-layout">
+                <button
+                  type="button"
+                  className="back-button"
+                  onClick={() => setSelectedCategory(null)}
+                >
+                  ← retour
+                </button>
+
+                <h2>
+                  {selectedCategory}
+                </h2>
+              </div>
+            ) : (
+              <>
+              <div className="child-detail-layout">
           <button
             type="button"
             className="back-button"
@@ -125,11 +193,16 @@ function App() {
                   key={child.id}
                   child={child}
                   needs={needs}
-                  onRecheck={(heightCm, shoeSizeEu) =>
+                  selectedSeason={selectedSeason}
+                  onSeasonChange={setSelectedSeason}
+                  onCategoryClick={setSelectedCategory}
+                  onRecheck={(heightCm, shoeSizeEu, firstName, birthDate) =>
                     updateChildMeasurements(
                       child.id,
                       heightCm,
-                      shoeSizeEu
+                      shoeSizeEu,
+                      firstName,
+                      birthDate
                     )
                   }
                 />
@@ -139,6 +212,25 @@ function App() {
         </>
       )}
       </div>
+      {isAddingChild && (
+        <div className="child-edit-overlay">
+          <div className="child-edit-modal">
+            <h2>Ajouter un enfant 🐣</h2>
+
+            <p>
+              Renseignons les informations de votre enfant
+              pour préparer son vestiaire.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setIsAddingChild(false)}
+            >
+              Annuler
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

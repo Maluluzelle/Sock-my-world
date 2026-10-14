@@ -4,7 +4,7 @@ import { ChildCard } from "./components/ChildCard"
 import type { Child } from "./types/Child"
 import type { Garment } from "./types/Garment"
 import type { GarmentAssignment } from "./types/GarmentAssignment"
-import { Season, GarmentFeature } from "./types/Garment"
+import { Season, GarmentFeature, GarmentStatus } from "./types/Garment"
 import { wardrobeSuggestions } from "./data/wardrobeSuggestions"
 import { calculateAssignedChildWardrobeNeeds } from "./domain/wardrobe"
 import { ChildPreviewCard } from "./components/ChildPreviewCard"
@@ -16,6 +16,8 @@ import { PantsIcon } from "./components/PantsIcon"
 import { RaincoatIcon } from "./components/RaincoatIcon"
 import { UnderwearIcon } from "./components/UnderwearIcon"
 import { AddGarmentModal } from "./components/AddGarmentModal"
+import { GarmentDetail } from "./components/GarmentDetail"
+import { GarmentTypeList } from "./components/GarmentTypeList"
 
 const garmentImages = import.meta.glob(
   "./assets/garments/*.png",
@@ -47,7 +49,27 @@ const initialChildren: Child[] = [
   },
 ]
 
-const garments: Garment[] = []
+const garments: Garment[] = [
+  {
+    id: 1,
+    householdId: "household-1",
+    category: "bottom",
+    type: "pants",
+    size: "90",
+    brand: "Jacadi",
+    color: "Bleu",
+    seasons: [
+      Season.SPRING,
+      Season.SUMMER,
+      Season.AUTUMN,
+      Season.WINTER,
+    ],
+    features: [],
+    status: GarmentStatus.IN_CLOSET,
+    photo: garmentImages["./assets/garments/pants.png"],
+  },
+]
+
 const assignments: GarmentAssignment[] = []
 
 const seasonLabels: Record<Season, string> = {
@@ -116,6 +138,8 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [isAddingChild, setIsAddingChild] = useState(false)
   const [isAddingGarment, setIsAddingGarment] = useState(false)
+  const [selectedGarmentId, setSelectedGarmentId] = useState<number | null>(null)
+  const [selectedGarmentType, setSelectedGarmentType] = useState<string | null>(null)
 
   function updateChildMeasurements(
     childId: number,
@@ -140,6 +164,32 @@ function App() {
   }
   return (
     <main>
+      {selectedGarmentId !== null && (
+        <div className="garment-detail-page">
+          <button
+            type="button"
+            className="back-button"
+            onClick={() => setSelectedGarmentId(null)}
+          >
+            ← Retour
+          </button>
+
+          {garments
+            .filter((garment) => garment.id === selectedGarmentId)
+            .map((garment) => (
+              <GarmentDetail
+                key={garment.id}
+                garment={garment}
+                onEdit={() => {}}
+                onDelete={() => {}}
+                onTransfer={() => {}}
+              />
+            ))}
+        </div>
+      )}
+
+      {selectedGarmentId === null && (
+        <>
       <button
         type="button"
         className="settings-button"
@@ -173,7 +223,23 @@ function App() {
       </div>
       )}
       <div className="children-grid">
-        {selectedChildId === null ? (
+        {selectedGarmentType !== null ? (
+        <div className="child-detail-layout">
+          <button
+            type="button"
+            className="back-button"
+            onClick={() => setSelectedGarmentType(null)}
+          >
+            ← Retour
+          </button>
+
+          <GarmentTypeList
+            type={selectedGarmentType}
+            garments={garments}
+            onSelectGarment={setSelectedGarmentId}
+          />
+        </div>
+        ) : selectedChildId === null ? (
         children.map((child) => (
           <ChildPreviewCard
             key={child.id}
@@ -288,7 +354,12 @@ function App() {
                             (result) => result.target.category === selectedCategory
                           )
                           .map((result, index) => (
-                            <li key={index} className="category-garment-card">
+                            <li
+                              key={index}
+                              className="category-garment-card"
+                              onClick={() => setSelectedGarmentType(result.target.type)}
+                              style={{ cursor: "pointer" }}
+                            >
                               {(() => {
                                 const imageByType: Record<string, string> = {
                                   pants: "pants.png",
@@ -445,6 +516,8 @@ function App() {
           onClose={() => setIsAddingGarment(false)}
         />
       )}
+      </>
+    )}
     </main>
   )
 }

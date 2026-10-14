@@ -1,6 +1,7 @@
 export const CLOTHING_SIZES = {
   "80": "12-18 months / 80 cm",
   "86": "18-24 months / 86 cm",
+  "90": "90 cm",
   "92": "24-36 months / 92 cm",
   "98": "3 year old / 98 cm",
   "104": "4 year old / 104 cm",

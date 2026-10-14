@@ -658,3 +658,175 @@ main:has(.child-detail-layout) .children-title {
   flex-shrink: 0;
   color: #275d50;
 }
+
+/* Fiche détaillée d'un vêtement */
+
+.garment-detail {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 20px;
+}
+
+.garment-detail-photo {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: 280px;
+  margin: 0 auto 24px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #f8f9f7;
+}
+
+.garment-detail-title {
+  margin: 0 0 28px;
+  color: #212e53;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.garment-detail-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.garment-detail-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  color: #4a919e;
+}
+
+.garment-detail-field > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.garment-detail-field strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #212e53;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.garment-detail-field p {
+  margin: 0;
+  color: #212e53;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* Boutons de la fiche détaillée */
+
+.garment-detail-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.garment-detail-actions button {
+  border: none;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Supprimer */
+.garment-detail-actions button:nth-child(1) {
+  background: #fbe9e7;
+  color: #ce6a6b;
+}
+
+/* Modifier */
+.garment-detail-actions button:nth-child(2) {
+  background: #4a919e;
+  color: #ffffff;
+}
+
+/* Transférer */
+.garment-detail-actions button:nth-child(3) {
+  grid-column: 1 / -1;
+  background: #bed3c3;
+  color: #212e53;
+}
+
+.garment-detail-actions button:hover {
+  filter: brightness(0.96);
+}
+
+/* Menu de transfert */
+
+.garment-transfer-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 18px;
+  background: #f8f9f7;
+  border-radius: 16px;
+}
+
+.garment-transfer-options p {
+  margin: 0 0 4px;
+  color: #212e53;
+  font-weight: 800;
+}
+
+.garment-transfer-options button {
+  padding: 12px 16px;
+  border: 1px solid #bed3c3;
+  border-radius: 12px;
+  background: white;
+  color: #212e53;
+  font-family: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.garment-transfer-options button:hover {
+  background: #e6efeb;
+}
+
+/* Encadré du visuel */
+
+.garment-detail-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #f8f9f7;
+  border: 1px solid #e5e9e7;
+  border-radius: 18px;
+}
+
+.garment-detail-visual .garment-detail-photo {
+  width: 100%;
+  max-width: 360px;
+  height: 260px;
+  margin: 0;
+  object-fit: contain;
+  background: transparent;
+}
+
+.garment-detail-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 240px;
+  color: #8a9b98;
+  font-size: 14px;
+  font-weight: 700;
+}

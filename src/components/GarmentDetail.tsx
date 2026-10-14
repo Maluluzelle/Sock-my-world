@@ -12,6 +12,7 @@ import {
   Palette,
   Tags,
   StickyNote,
+  Package,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -153,7 +154,19 @@ const garmentTitle = [
             <p>{garment.brand}</p>
           </div>
         </div>
-
+        <div className="garment-detail-field">
+          <Package size={22} />
+          <div>
+            <strong>Stock actuel</strong>
+            <p>
+              {garment.status === "toSell"
+                ? "Stock à vendre"
+                : garment.status === "toDonate"
+                  ? "Stock à donner"
+                  : "Stock familial"}
+            </p>
+          </div>
+        </div>
         <div className="garment-detail-field">
           <StickyNote size={22} />
           <div>

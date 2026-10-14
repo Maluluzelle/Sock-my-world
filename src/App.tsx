@@ -49,7 +49,7 @@ const initialChildren: Child[] = [
   },
 ]
 
-const garments: Garment[] = [
+const initialGarments: Garment[] = [
   {
     id: 1,
     householdId: "household-1",
@@ -112,6 +112,28 @@ function App() {
   const seasonalTargets = wardrobeSuggestions.filter(
     (target) => target.season === selectedSeason
   )
+
+  const [garments, setGarments] = useState<Garment[]>(initialGarments)
+
+  const handleTransferGarment = (
+    garmentId: number,
+    destination: "family" | "sell" | "donate"
+  ) => {
+    const newStatus =
+      destination === "sell"
+        ? GarmentStatus.TO_SELL
+        : destination === "donate"
+          ? GarmentStatus.TO_DONATE
+          : GarmentStatus.IN_CLOSET
+
+    setGarments((currentGarments) =>
+      currentGarments.map((garment) =>
+        garment.id === garmentId
+          ? { ...garment, status: newStatus }
+          : garment
+      )
+    )
+  }
 
   const [children, setChildren] = useState<Child[]>(() => {
   const savedChildren = localStorage.getItem("pioupiousape-children")
@@ -182,7 +204,9 @@ function App() {
                 garment={garment}
                 onEdit={() => {}}
                 onDelete={() => {}}
-                onTransfer={() => {}}
+                onTransfer={(destination) =>
+                  handleTransferGarment(garment.id, destination)
+                }
               />
             ))}
         </div>
